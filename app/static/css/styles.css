@@ -1,29 +1,20 @@
+:root {
+    --data: #FF6D85;
+    --federal: #AF87FF; 
+    --military: #FFFA75;
+    --murders: #8EC5FF;
+    --music: #A8FFB8;
+    --politics: #FFC45E;
+    --space: #90F4F3;
+}
+
 body {
     background-color: grey;
 }
 
-
-nav {
-    width: 100%;
-    background: #fff;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-}
-
-nav ul li {
-    display: block;
-    margin: 5px;
-    padding: 5px;
-}
-
-
-section {
-    display: none;
-}
-
-section.active {
-    display: block;
+a::before {
+    content:"";
+    background-color: var(--space);
+    width: 1.5em;
+    height: 1.5em;
 }
