@@ -2,48 +2,10 @@
 
 
 	let templates = {
-		tags: function(d) {
+		card: function(d) {
+			let template = ``
 
-		},
-		detail: function(d) {
-
-		}
-	}
-
-	let app = {
-		init: function() {
-			guacamole.router.init()
-			guacamole.router.config([
-				{
-					route: "#/tags/:name",
-					template: templates.tags
-				},
-				{
-					route: "#/detail/:id",
-					template: templates.detail
-				}
-
-			])
-			api.fetch("https://api.dribbble.com/v1/shots/?access_token=c5312519011b8c727842737d8bdf60cedc9bf0f3b0cde84875602764160dcf55&per_page=100","GET", true)
-			.then(function(response) {
-				app.config.data = response
-				guacamole.render(response)
-			})
-			.catch(function(e) {
-				console.log(e)
-			})
-
-		},config: {
-			data: []
-		}
-	}
-
-	let guacamole = {
-		render: function(list) {
-			let body = window.document.body
-			let template = ``;
-
-			list.map(function(i) {
+			d.map(function(i) {
 				template += `
 				<div>
 					<h1>${i.title}</h1>
@@ -67,8 +29,52 @@
 				</div>
 				`
 			})
-			body.innerHTML = template;
+			return template
+		},
+		detail: function(d) {
+
+		}
+	}
+
+	let app = {
+		init: function() {
+			guacamole.router.init()
 			
+				window.location.hash = "#/"
+				//window.dispatchEvent("hashchange")
+			
+			guacamole.router.config([
+				{
+					route: "#/",
+					template: templates.card
+				},
+				{
+					route: "#/tags/:name",
+					template: templates.card
+				},
+				{
+					route: "#/detail/:id",
+					template: templates.detail
+				}
+
+			])
+			api.fetch("https://api.dribbble.com/v1/shots/?access_token=c5312519011b8c727842737d8bdf60cedc9bf0f3b0cde84875602764160dcf55&per_page=100","GET", true)
+			.then(function(response) {
+				app.config.data = response
+			})
+			.catch(function(e) {
+				throw new Error(e)
+			})
+
+		},config: {
+			data: []
+		}
+	}
+
+	let guacamole = {
+		render: function(template,list) {
+			let body = window.document.body
+			body.innerHTML = template.template(list)
 		},
 
 		router: {
@@ -78,7 +84,7 @@
 			},
 			checkUrl: function(e) {
 				let url = e.newURL
-				let link = url.match("\#\/[^/#]+")
+				let link = url.match("((\#\/[^/#]+)|(\#\/))")
 				guacamole.router.route(link[0])
 			},
 			routes: [],
@@ -86,8 +92,14 @@
 				guacamole.router.routes = routes
 			},
 			route: function(url) {
-				if(guacamole.router.routes.includes(url)) {
+				let route = guacamole.router.routes.filter(function(r) {
+					return r.route === url
+				})
 
+				if(route.length >= 1) {
+					guacamole.render(route[0], app.config.data)
+				}else {
+					console.warn(url+" most likely doenst exist")
 				}
 			}
 
