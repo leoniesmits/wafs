@@ -1,6 +1,8 @@
 # wafs
 The course repo for 'Web App From Scratch'
 
+# [The work in my progress for the final assignment is here](https://github.com/leoniesmits/wafs/tree/master/app/static)
+
 ## Week 1
 
 ### Advantages and disadvantages of JavaScript libraries/frameworks
