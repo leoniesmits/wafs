@@ -1,33 +1,82 @@
+// create local scope
+// this practice is called an Immediately Invoked Function Expression (IIFE)
+// it's a function that runs as soon as it's defined
 (function() {
+    "use strict";
 
-	'use strict'
+// the settings for the url before I render its data
+// in the url, the last two values are the year and month
+// I selected august 1969
+// underneath, I stored the api key (my access) in another variable
+    var settings = {
+        url: "https://api.nytimes.com/svc/archive/v1/1969/8.json",
+        apiKey: "95471ed858c04cbe81da960e4f866116",
+    }
 
-	const App = function() {
-		//app states
-		this.state = {
-			data: [],
-			isLoading: true
-		}
-		this.init = function() {
-			dribbble.fetch('GET',"https://api.dribbble.com/v1/shots/?access_token=c5312519011b8c727842737d8bdf60cedc9bf0f3b0cde84875602764160dcf55&per_page=10",true).then((d) =>{
-				if(d.length > 1) {
-					this.setState({data: d, isLoading: false})
-				}else {
-					template.render(templates.nodata, [])
-				}
-			}).then(() => {
-				window.location.hash = "#home"
-			}).catch((e) =>{
-				console.log(e)
-			})
-		}
-		//handler for managing app states
-		this.setState = function(obj) {
-			Object.assign(this.state, obj)
-		}
+// initialize application
+// this object is to bring structure to the file
+// and to start at a explicit poin
+// I guess you could call it a "hatch"?
+    var app = {
+        init: function() {
+            routes.init();
+        }
+    }
 
-		//constructor self init
-		this.init()
-	}
-	window.app = new App()
+// handle routes and states
+    var routes = {
+        init: function() {
+            routie ({
+                "": function() {
+
+                },
+                "military": function(){
+                }
+            });
+            // window.addEventListener("hashchange", function() {
+            //     var route = window.location.hash;
+            //     template.toggle(route);
+            // });
+
+            api.getData();
+        }
+    }
+    var api = {
+        xhttp: new XMLHttpRequest(),
+        url: settings.url+ "?api-key=" +settings.apiKey,
+        getData:function(route){
+            return new Promise((resolve, reject) => {
+               this.xhttp.onreadystatechange = () => {
+                    if(this.xhttp.state >= 200 && this.state < 400) {
+                        resolve(JSON.parse(this.xhttp.responseText))
+                    }else {
+                        reject(this.xhttp.status)
+                    }
+               }
+            })
+            this.xhttp.open("GET", this.url, true);
+            this.xhttp.send();
+        }
+    }
+
+
+
+    // render and toggle sections
+    var template = {
+
+    }
+
+    var hello = {
+        hello: "Hello!",
+        hi: "Hi there!",
+        span: "Goodbye!"
+      };
+
+    Transparency.render(document.getElementById('template'), hello);
+
+
+    // start the application 
+    app.init();
 })();
+
+
