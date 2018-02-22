@@ -1,6 +1,93 @@
 (function() {
 
+	'use strict'
 
+	let Api = function() {
+		this.fetch = function(method, url, async) {
+			return new Promise((resolve, reject) => {
+				this.xhttp.onreadystatechange = () => {
+					if(this.xhttp.readyState == 4 && this.xhttp.status >= 200 && this.xhttp.status <= 400) {
+						resolve(JSON.parse(this.xhttp.responseText))
+					}else if(this.xhttp.status >= 400) {
+						reject(this.xhttp.status)
+					}
+				}
+				this.xhttp.open(method,url,async)
+				this.xhttp.send()
+			})
+		}
+		this.xhttp = new XMLHttpRequest()
+	}
+	window.dribbble = new Api()
+})();
+
+
+(function() {
+	const TemplateEngine() {
+		this.view = document.getElementById("view")
+
+		this.build = function() {}
+
+		this.render = function(template) {}
+	}
+
+	window.template = new TemplateEngine()
+})();
+
+
+(function() {
+
+	'use strict'
+
+	routie({
+		'home' : function() {
+			console.log("yo")
+		},
+		'tags/:tag' : function(t) {
+			console.log(t)
+		},
+		'detail/:id' : function() {
+			console.log("test")
+		},
+		'*' : function() {
+			console.log('bla')
+		}
+	})
+	//window.router = new Router()
+})();
+
+
+
+(function() {
+
+	'use strict'
+
+	const App = function() {
+		this.state = {
+			data: [],
+			isLoading: true
+		}
+		this.init = function() {
+			dribbble.fetch('GET',"https://api.dribbble.com/v1/shots/?access_token=c5312519011b8c727842737d8bdf60cedc9bf0f3b0cde84875602764160dcf55&per_page=100",true).then((d) =>{
+				this.setState({data: JSON.parse(d), isLoading: false})
+			})
+			window.location.hash = "#home"
+		}
+		this.setState = function(obj) {
+			Object.assign(this.state, obj)
+		}
+		this.init()
+	}
+	window.app = new App()
+})();
+
+
+
+
+
+
+/*
+(function() {
 	let templates = {
 		card: function(d) {
 			let template = ``
@@ -17,7 +104,7 @@
 						</div>
 						<div>
 							<h2>Likes:</h2>
-							<p>${i.likes_count}</p>
+							<p>${i.likes_count}</p> 
 						</div>
 
 						<div>
@@ -81,11 +168,13 @@
 
 			init: function() {
 				window.addEventListener("hashchange",guacamole.router.checkUrl, true)
+				console.log(this)
 			},
 			checkUrl: function(e) {
 				let url = e.newURL
 				let link = url.match("((\#\/[^/#]+)|(\#\/))")
 				guacamole.router.route(link[0])
+				console.log(this)
 			},
 			routes: [],
 			config: function(routes) {
@@ -96,7 +185,7 @@
 					return r.route === url
 				})
 
-				if(route.length >= 1) {
+				if(route.length === 1) {
 					guacamole.render(route[0], app.config.data)
 				}else {
 					console.warn(url+" most likely doenst exist")
@@ -163,18 +252,18 @@
 
 
 			if(route === "start") {
-				start.classList.add("show");
+				start.classList.add("show")
 				bestPractices.classList.remove("show")
 			}else if(route === "best-practice") {
 				bestPractices.classList.add("show")
 				start.classList.remove("show")
 			}
 
-			console.log(route);
+			console.log(route)
 		}
 	}
 
-	app.init();
+	app.init()
 
 })()
 */
