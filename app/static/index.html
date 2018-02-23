@@ -11,21 +11,48 @@
 <body>
         <nav>
             <ul>
-                <li><a href="#data">Data Processing</a></li>
-                <li><a href="#federal">Federal Agencies</a></li>
-                <li><a href="#military">Military Action</a></li>
-                <li><a href="#murders">Murders</a></li>
-                <li><a href="#music">Music</a></li>
-                <li><a href="#politics">Politics and Government</a></li>
-                <li><a href="#space">Space and Upper Atmosphere</a></li>
+                <li><a href="">Home</a></li>
+                <li><a href="#data" data-bind="main" class="main">Data Processing</a></li>
+                <li><a href="#federal" data-bind="main" class="main">Federal Agencies</a></li>
+                <li><a href="#military" data-bind="main" class="main">Military Action</a></li>
+                <li><a href="#murders" data-bind="main" class="main">Murders</a></li>
+                <li><a href="#music" data-bind="main" class="main">Music</a></li>
+                <li><a href="#politics" data-bind="main" class="main">Politics and Government</a></li>
+                <li><a href="#space" data-bind="main" class="main">Space and Upper Atmosphere</a></li>
             </ul>
         </nav>
-        <section id="template">
-            <div id="hello"></div>
-            <div class="hi"></div>
-            <span></span>
-                        
+        <article class="active" id="start">
+            <div>
+                <a data-bind="detail_url" href="">
+                <h1 data-bind="main" class="main"></h1>
+                <span data-bind="date" class="date"></span>
+                <p data-bind="lead" class="lead"></p>
+                <ul data-bind="subject" id="subject">
+                    <li data-bind="value" class="value"></li>
+                </ul>
+                <span data-bind="author" class="author"></span>
+                </a>
+            </div>
+        </article>
+        <article id="detail">
+            <div>
+                <h1 data-bind="main" class="main"></h1>
+                <span data-bind="date" class="date"></span>
+                <p data-bind="lead" class="lead"></p>
+                <p data-bind="snippet" class="snippet"></p>
+                <span data-bind="source" class="source"></span>
+                <span data-bind="url" class="url"></span>
+                <ul data-bind="subject" id="subject">
+                    <li data-bind="value" class="value"></li>
+                </ul>
+                <span data-bind="author" class="author"></span>
+            </div>
+        </article>
+        <section id="legend">
+
         </section>
+
+
         <script src="js/transparency.js"></script>
         <script src="js/routie.js"></script>
         <script src="js/app.js"></script>
