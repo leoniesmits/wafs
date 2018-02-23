@@ -6,10 +6,19 @@
     --music: #A8FFB8;
     --politics: #FFC45E;
     --space: #90F4F3;
+    --headerfont: "Inconsolata",Monaco,"Lucida Console",Consolas,"Courier New";
+    --bodyfont: "PT Serif", serif;
 }
 
 body {
-    background-color: grey;
+    display: flex;
+    flex-flow: row-reverse;
+    background-color: white;
+}
+
+a {
+    text-decoration: none;
+    color: black;
 }
 
 a::before {
@@ -18,3 +27,105 @@ a::before {
     width: 1.5em;
     height: 1.5em;
 }
+
+nav {
+    background: #fff;
+}
+
+ul {
+    list-style: none;
+}
+
+li.value{
+    margin: 2px;
+    background-color: #7FB5C7;
+    border-radius: 10px;
+    padding: 5px;
+    color: white;
+    width: auto;
+}
+
+#subject {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    font-family: var(--headerfont);
+    font-size: 0.8em;
+}
+
+article {
+    column-width: 13em;
+}
+article div {
+    display: inline-block;
+    margin:  1rem;
+    padding:  1rem;
+    background:  #FAFFFF;
+}
+
+
+article div {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+article div:hover,
+article div:focus-within {
+    background:  #F2FAFF;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+
+article h1 {
+    text-transform: uppercase;
+    font-family: var(--headerfont);
+    font-weight: 100;
+    font-size: 1.3em;
+}
+
+article .date {
+    font-family: var(--headerfont);
+    font-size: 0.8em;
+    color: grey;
+}
+
+article:not(.active) {
+    display: none;
+}
+
+@media only screen and (min-width: 45em) {
+    nav {
+        width: 30%;
+    }
+
+    /* article div {
+        padding: 2.5% 5%;
+        margin: 2.5%;
+        width: calc(70%/2);
+    } */
+ } 
+
+ @media only screen and (min-width: 60em) {
+
+ }
+
+ @media only screen and (min-width: 75em) {
+    article {
+        column-width: 20em;
+    }
+    /* article div{
+        display: inline-block;
+        margin:  0.25rem;
+        padding:  1rem;
+        width:  100%; 
+        background:  #efefef;
+    } */
+
+    article h1 {
+        font-size: 1em;
+    }
+    article p {
+        font-size: 0.9em;
+    }
+ }
+
