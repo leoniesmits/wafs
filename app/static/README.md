@@ -133,8 +133,9 @@ The idea is to make a legend, print the subjects as list item links and give eac
 
 ##### Before 22/02:
 - [ ] __Filter the data.__
-    - [ ] use .map to make new array with data I'll use
-    - [ ] Take out everything I don't need/take everything I do
+    - [x] use .filter to make new array with data I'll use
+    - [x] Take out everything I don't need/take everything I do
+    - [ ] use .map to assign names to the values in object
 - [ ] __Figure out how to use transparency.js.__
     - [ ] Figure out what data has to go where
     - [ ] Figure out how to put data in an object or array
@@ -154,3 +155,86 @@ The idea is to make a legend, print the subjects as list item links and give eac
 
 ##### 23/02 
 - [ ] __Push everything__
+
+
+## Week 3
+
+##### Step 5:
+#### Filter the data
+
+[Source for this practice](https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+
+Before using request.send() to render the data, I have to filter it at first, as I'm currently recieving over 8.000 lines of JSON. I made a function inside getData, before .send, that refers to another object. This function is called collection.filter. I used an example with dummy data to see if it works:
+```javascript
+    var arr = [
+        { print_page: "11" },
+        { print_page: "1" },
+        { print_page: "35" },
+        { print_page: "1" },
+        { },
+        { id: null },
+        { id: NaN },
+        { id: 'undefined' }
+      ];
+
+      console.log(arr)
+
+      var invalidEntries = 0;
+
+      function filterByID(obj) {
+          console.log(obj);
+          if (obj.print_page === "1") {
+            return true;
+          } else {
+              invalidEntries++;
+              return false;
+          }
+      }
+
+      var arrByID = arr.filter(filterByID);
+
+      console.log("gefilterd",arrByID);
+      console.log("verkeerde",invalidEntries);
+```
+I only want objects returned that have a printpage value of "1". This means the page on where the news is printed, I filter this because I only want front page news. First I print the entire array in the console and then again after the function is finished. The function filterPrintPage has a parameter obj, that holds all the objects from the array. If the printpage of object is equal to 1, return true. If not, return false. Another variable is added, called invalidEntries with value 0. This will count all the objects that are filtered out. This variable is called in the else statement, that counts all the invalid entries with ++, so I can log the number of these entries. 
+
+In the console I recieved the following:
+```javascript
+(8) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+app.js:100 {print_page: "11"}
+app.js:100 {print_page: "1"}
+app.js:100 {print_page: "35"}
+app.js:100 {print_page: "1"}
+app.js:100 {}
+app.js:100 {id: null}
+app.js:100 {id: NaN}
+app.js:100 {id: "undefined"}
+app.js:111 gefilterd (2) [{…}, {…}]
+app.js:112 verkeerde 6
+```
+
+First the array with all objects, then all objects individually and finally the fitlered objects and number of wrong entries. 
+
+
+
+#### what we learned
+##### Writing in objects
+
+An object literal is used to structure the code. These objects have properties and methods. Something they know about themselves and something they can do.
+```javascript
+var obj = {
+    propertyB: 1;
+    methodB: function() {
+        anotherObj.methodA();
+    }
+}
+
+var anotherObj = {
+    propertyA: "a", "b";
+    methodA: function(){}
+}
+
+obj.methodB();
+```
+
+By using an IIFE, the function that holds everything calls itself. Then everything that is defined only lives in that scope. By using objects, the functions and variables can talk to each other. They can direct to each other by calling each other in functions, or giving another object as parameter. 
