@@ -17,7 +17,7 @@
 // I selected august 1969
 // underneath, I stored the api key (my access) in another variable
     var settings = {
-        url: "https://api.nytimes.com/svc/archive/v1/1969/8.json",
+        url: "https://api.nytimes.com/svc/archive/v1/2018/5.json",
         apiKey: "95471ed858c04cbe81da960e4f866116",
     }
 
@@ -34,14 +34,13 @@
 // handle routes and states
     var routes = {
         init: function() {
-            api.getData();
             routie({
-				"home": function () {
-					template.toggle('#home');
+				"": function () {     
+                    api.getData();
+                    template.toggle();
 				},
-				"detail/:storyid": function (storyid) {
-                    console.log(storyid)
-					template.toggle('#detail');
+				"detail/?:storyid": function (storyid) {
+                    template.toggle(storyid);
 				}
 			});
 
@@ -69,15 +68,19 @@
         }
     }
 
-// this object filters all the data I need for specific elements
+{// this object filters all the data I need for specific elements
 // the filterdata method first filters the front page news
 // then filters out the empty titles (news articles that have "no title" as title)
 // this filtered data is sent do template.render to put everything in place
     var collection = {
+        data: [],
         filterData: function(data) {
+            console.log(data)
+
             var frontPage = data.response.docs.filter(this.filterByPage);
             var emptyPage = frontPage.filter(this.deleteEmpty);
-            template.render(emptyPage);
+            this.data = emptyPage;
+            collection.mapData(emptyPage);
         },
         filterByPage: function(item) {
             if(item.print_page == "1"){
@@ -91,31 +94,11 @@
                 return item;
             }
         },
-// this does work on console.log but not on return
-        selectSubjects: function(subjectArray) {
-            var subjectValue = subjectArray.forEach(function (item) {
-                // console.log(item.value)
-                return item.value
-            })
-            // var legendData = subjectValue.map(function(item) {
-            //     return {
-            //         space: "SPACE AND UPPER ATMOSPHERE"
-            //     }
-            // })
-        },
-    }
-
-// this object renders the data to the template
-// method render makes up an array with .map of all selected pieces of data
-// the method filterSubject filters out the value of only subjects within keywords
-// Transparency.render selects the HTML element and injects the data accordingly
-    var template = {
-        render : function(data, storyid){
+        mapData : function(data, storyid){
             var self = this;
             var templateData = data.map(function(i) {
-                var subjectArray = i.keywords.filter(self.filterSubject);
-                // var authorArray = i.byline.filter(self.filterAuthor);
-                console.log(i.byline)
+                
+                var subjectArray = i.keywords.filter(collection.filterSubject);
                 return {
                     snippet: i.snippet,
                     source: i.source,
@@ -125,63 +108,68 @@
                     url: i.web_url,
                     subject: subjectArray,
                     date: i.pub_date,
-                    // author: authorArray,
+                    image: i.multimedia[0].url,
+                    author: i.byline.original,
                     id: i._id
                 }
+               
             });
 
-            var directives = {
-                detail_url: {
-                    href() {
-                        return "#detail/" + this.id;
-                    }
-                }
-            }
-            
-            console.log(templateData)
-            if(document.querySelector(".active").id === "start"){
-                 Transparency.render(document.getElementById('start'), templateData, directives);
-            } else if(document.querySelector(".active").id === "detail") {
-                Transparency.render(document.getElementById('detail'), templateData[storyid]);
-            }
+            collection.data = templateData;
+            template.render(data, storyid)
         },
         filterSubject: function(item) {             
             if (item.name === "subject") {
                 return item
             } else {
                 return;
-            }
-        },
-        filterAuthor: function(item) {
-            if (item.original == "original") {
-                return item
-            } else {
-                return;
-            }
-        },
-        toggle: function(route) {
-            var articles = document.querySelectorAll("article");
-            articles.forEach(function (item) {
-                item.classList.remove("active");
-                if(item.id === route) {
-                    item.classList.add("active")
-                }
-            })
+            }  
         }
-        // toggle: function (route) {
-		// 	var section = document.querySelectorAll("article");
-		// 	var current = document.querySelector(route);
+    }}
 
-		// 	section.forEach(function (item) {
-		// 		if (item === current) {
-		// 			item.classList.add('active');
-		// 		} else {
-		// 			item.classList.remove('active');
-		// 		}
-		// 	});
-		// }
+// this object renders the data to the template
+// method render makes up an array with .map of all selected pieces of data
+// the method filterSubject filters out the value of only subjects within keywords
+// Transparency.render selects the HTML element and injects the data accordingly
+    var template = {
+        directive:  {
+            detail_url: {
+                href() {
+                    return "#detail/" + this.id;
+                }
+            },
+            image: {
+                src() {
+                    // console.log(this.image)
+                    return "https://static01.nyt.com/" + this.image;
+                }
+            }
+        },
+        render : function(data, storyid ){
+            Transparency.render(document.getElementById('start'), collection.data, template.directive);
+
+            var loader = document.querySelectorAll('#loader');
+            loader.forEach(function(i){
+                i.classList.remove("active")
+            })
+
+        },
+        toggle: function(id) {
+            if (id) {
+                var article = document.querySelector("article")
+                article.classList.toggle("active");
+            } else {
+                var article = document.querySelector("article")
+                article.classList.toggle("active")
+            }
+
+            var detail = collection.data.filter(function (story) {
+                return story.id === id
+            })
+            
+            Transparency.render(document.getElementById('detail'), detail, template.directive);
+        }
     }
-
 // start the application 
     app.init();
 })();
