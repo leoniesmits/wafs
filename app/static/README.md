@@ -216,7 +216,7 @@ app.js:112 verkeerde 6
 First the array with all objects, then all objects individually and finally the fitlered objects and number of wrong entries. 
 
 ## Actor diagram
-![actor diagram](./images/actordiagram.pdf)
+![actor diagram](./images/actordiagram.png)
 
 ## Flow diagram
 ![flow diagram](./images/flowdiagram.png)
