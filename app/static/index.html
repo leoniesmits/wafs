@@ -9,47 +9,42 @@
 </head>
 
 <body>
-        <nav>
-            <ul>
-                <li><a href="#start">Startscherm</a></li>
-                <li><a href="#practices">Best practices</a></li>
-            </ul>
-        </nav>
-        <section id="start" class="active">
-            <h1>Startscherm</h1>
-            <p>hoi welkom</p>
-        </section>
-    
-        <section id="practices">
-            <h1>Best practices</h1>
-            <ul>
-                <li>Er is gebruik gemaakt van valide HTML5: Semantisch correcte structuur
-                elementen en Formulieren en er is gebruik gemaakt van valide CSS3:
-                border­radius, box­shadow, text­shadow, transforms en transitions, selectors,
-                sibling combinators, pseudo classes en attribute selectors, en een deel van de
-                layout is opgemaakt met Flexbox.</li>
-                    
-                    
-                <li>De layout is in verhoudingen opgemaakt. Er is gebruik gemaakt van procenten
-                en/of Em waardes</li>
+        <div class="active" id="loader">
+            <div class="load">Laden..</div>
+        </div>
+        <article  id="start">
+            <div>
+                <a data-bind="detail_url" href="">
+                <h1 data-bind="main" class="main"></h1>
+                <img src="" key-binding='image' class="image">
+                <span data-bind="date" class="date"></span>
+                <p data-bind="snippet" class="snippet"></p>
+                <span data-bind="author" class="author"></span>
+                </a>
+            </div>
+        </article>
+        <article class="active" id="detail">
+                
+            <div>
+                <a href="#">✖</a>
+                <h1 data-bind="main" class="main"></h1>
+                <span data-bind="date" class="date"></span>
+                <p data-bind="lead" class="lead"></p>
+                <img src="" key-binding='image' class="image">
+                <p data-bind="snippet" class="snippet"></p>
+                <span data-bind="source" class="source"></span>
+                <a data-bind="url" class="url"></a>
+                <ul data-bind="subject" id="subject">
+                    <li data-bind="value" class="value"></li>
+                </ul>
+                <span data-bind="author" class="author"></span>
+            </div>
+        </article>
 
-                <li>Met behulp van Media Queries is een responsive design gerealiseerd, de
-                pagina’s passen zich aan aan de schermgrootte en de layout verandert voor
-                mobile, tablet en/of desktop formaat.</li>
-                    
-                    
-                <li>Het Javascript Classlist object en de query selectors zijn gebruikt om een
-                dom­element te selecteren en een class toe te wijzen of weg te halen.</li>
 
-                <li>De pagina's bevatten het picture­element om verschillende plaatjes te laden
-                voor verschillende schermen/apparaten. Daarnaast is er een video en/of audio
-                element gebruikt.</li>
-                    
-                    
-                <li>Student toont begrip en inzicht over responsive design en kan uitleggen hoe het
-                technisch werkt, en waarom verschillende ontwerpbeslissingen zijn gemaakt.</li>
-            </ul>
-        </section>
+
+        <script src="js/transparency.js"></script>
+        <script src="js/routie.js"></script>
         <script src="js/app.js"></script>
     </body>
 </body>

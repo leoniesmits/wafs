@@ -1,7 +1,9 @@
 # wafs
 The course repo for 'Web App From Scratch'
 
+
 [link to the page](https://leoniesmits.github.io/wafs/app/static/index.html)
+
 
 ## Week 1
 
@@ -26,4 +28,8 @@ __Scrolling is easier than clicking.__ If a user begins to scroll, then you may 
 - Don't pollute the global scope, use objects instead.
 - "use strict" to find errors faster.
 - 
+<<<<<<< HEAD
 *To be continued*
+=======
+*To be continued*
+>>>>>>> 0ffd120b84696f637d20e490f8c3df90d6cfd8a6
