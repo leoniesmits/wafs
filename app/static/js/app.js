@@ -18,7 +18,7 @@
 // underneath, I stored the api key (my access) in another variable
     var settings = {
         url: "https://api.nytimes.com/svc/archive/v1/2018/5.json",
-        apiKey: "95471ed858c04cbe81da960e4f866116",
+        apiKey: "r8QZbMEAyISGNhszSuglD4akcNUbYeAK",
     }
 
 // initialize application
@@ -94,7 +94,7 @@
                 return item;
             }
         },
-        mapData : function(data, storyid){
+        mapData: function(data, storyid){
             var self = this;
             var templateData = data.map(function(i) {
                 
